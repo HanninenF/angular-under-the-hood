@@ -1,0 +1,56 @@
+<div class="page">
+  <header class="toolbar">
+    <div>
+      <h1 class="title">Timeline</h1>
+      <p class="subtitle">Level 0 — events i realtid</p>
+    </div>
+
+    <button class="btn" type="button" (click)="clear()">Clear</button>
+  </header>
+
+  <div class="content">
+    <div class="list">
+      <div
+        class="row"
+        *ngFor="let event of (events$ | async) ?? []"
+        (click)="select(event)"
+        [class.row--selected]="selectedEvent?.id === event.id"
+      >
+        <div class="time">+{{ formatMs(event.timestampMs) }}</div>
+        <div class="cat">{{ event.category }}</div>
+        <div class="label">{{ event.label }}</div>
+        <div class="lvl" [class]="'lvl lvl--' + event.level">
+          {{ event.level }}
+        </div>
+      </div>
+
+      <div class="empty" *ngIf="((events$ | async) ?? []).length === 0">
+        Inga events än. Vi lägger till dem i nästa micro-commit.
+      </div>
+    </div>
+
+    <aside class="details" *ngIf="selectedEvent">
+      <div class="details__header">
+        <div>
+          <div class="details__title">{{ selectedEvent.label }}</div>
+          <div class="details__meta">
+            <span>Category: {{ selectedEvent.category }}</span>
+            <span>Source: {{ selectedEvent.source }}</span>
+            <span *ngIf="selectedEvent.correlationId"
+              >Correlation: {{ selectedEvent.correlationId }}</span
+            >
+            <span *ngIf="selectedEvent.durationMs != null"
+              >Duration: {{ selectedEvent.durationMs }}ms</span
+            >
+          </div>
+        </div>
+
+        <button class="btn btn--ghost" type="button" (click)="closeDetails()">
+          Close
+        </button>
+      </div>
+
+      <pre class="json">{{ selectedEvent | json }}</pre>
+    </aside>
+  </div>
+</div>

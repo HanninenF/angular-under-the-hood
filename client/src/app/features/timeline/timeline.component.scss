@@ -1,0 +1,147 @@
+.page {
+  padding: 16px;
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Arial,
+    sans-serif;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.title {
+  margin: 0;
+  font-size: 22px;
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  color: #666;
+  font-size: 13px;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 12px;
+  align-items: start;
+}
+
+.list {
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  /* overflow: hidden; */
+  background: #fff;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 90px 140px 1fr 70px;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+}
+
+.row:hover {
+  background: #fafafa;
+}
+
+.row--selected {
+  background: #f3f8ff;
+}
+
+.time {
+  color: #444;
+  font-variant-numeric: tabular-nums;
+}
+
+.cat {
+  font-weight: 600;
+  color: #222;
+}
+
+.label {
+  color: #222;
+}
+
+.lvl {
+  text-align: right;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.lvl--info {
+  color: #2b6cb0;
+}
+
+.lvl--warn {
+  color: #b7791f;
+}
+
+.lvl--error {
+  color: #c53030;
+}
+
+.details {
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.details__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.details__title {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.details__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: #555;
+  font-size: 12px;
+}
+
+.json {
+  margin: 0;
+  padding: 12px;
+  background: #0b1020;
+  color: #e7e7e7;
+  font-size: 12px;
+  overflow: auto;
+  max-height: 70vh;
+}
+
+.btn {
+  border: 1px solid #d0d0d0;
+  background: #fff;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #f6f6f6;
+}
+
+.btn--ghost {
+  border: 1px solid transparent;
+}
