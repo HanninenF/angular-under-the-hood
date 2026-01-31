@@ -25,6 +25,7 @@ async function bootstrap() {
         category: 'BOOTSTRAP',
         label: 'Angular bootstrap completed',
         source: 'main.ts',
+        correlationId: 'bootstrap-1',
         durationMs: Math.round(performance.now() - bootstrapStart),
       }),
     );
