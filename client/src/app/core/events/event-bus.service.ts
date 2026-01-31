@@ -34,7 +34,11 @@ export class EventBusService {
   readonly events$: Observable<RuntimeEvent[]> = this._events.asObservable();
 
   emit(event: RuntimeEvent): void {
-    const message = `[${event.category}] ${event.label} `;
+    const correlationSuffix = event.correlationId
+      ? ` (correlationId: ${event.correlationId})`
+      : '';
+
+    const message = `[${event.category}] ${event.label}${correlationSuffix}`;
 
     if (event.level === 'error') console.error(message, event);
     else if (event.level === 'warn') console.warn(message, event);
