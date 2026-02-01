@@ -1,5 +1,5 @@
 ---
-description: '  Generates nano-ready Conventional Commit messages by analyzing diffs or change descriptions.'
+description: 'Generates nano-ready Conventional Commit messages by analyzing diffs or change descriptions.'
 tools: []
 ---
 
@@ -49,13 +49,11 @@ All commit messages must be **nano-ready** and wrap at **72 characters**.
 Structure:
 
 ```
-
 <type>(<scope>): <summary>
 
 <body wrapped to 72 characters>
 
 [optional BREAKING CHANGE or reference]
-
 ```
 
 ---
@@ -86,7 +84,7 @@ If multiple intents are detected in a single diff
 
 - Inform the user that multiple concerns are mixed
 - Suggest splitting into separate commits
-- if suggesting splitting, always specify what files/changes should go into each commit
+- If suggesting splitting, always specify what files/changes should go into each commit
 - **Do not decide for the user**
 
 ---
@@ -100,5 +98,3 @@ If multiple intents are detected in a single diff
 - No additional commentary
 
 Ask for clarification **only** if the input is genuinely ambiguous.
-
-

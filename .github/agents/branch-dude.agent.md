@@ -15,9 +15,7 @@ from a short intent description.
 Generate branch names using:
 
 ```
-
 <type>/<team>/<title>
-
 ```
 
 Rules:
@@ -34,9 +32,7 @@ Rules:
 If the user input starts with:
 
 ```
-
 branch <description>
-
 ```
 
 Use `<description>` as the basis.
