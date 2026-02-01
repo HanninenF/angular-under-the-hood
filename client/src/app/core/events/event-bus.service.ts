@@ -41,7 +41,10 @@ export class EventBusService {
     else console.log(message, event);
 
     const next = [...this._events.value, event];
-    this._events.next(next);
+
+    queueMicrotask(() => {
+      this._events.next(next);
+    });
   }
 
   clear(): void {

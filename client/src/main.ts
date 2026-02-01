@@ -5,27 +5,34 @@ import { enableProdMode } from '@angular/core';
 import { EventBusService } from './app/core/events/event-bus.service';
 import { environment } from './environments/environments';
 import { createEvent } from './app/core/events/event-factory';
+import { createCorrelationId } from './app/core/correlation/correlation-id';
+import { BOOTSTRAP_CORRELATION_ID } from './app/core/correlation/bootstrap-correlation-id.token';
 
 console.log(`[main.ts] startar filen`);
 
 async function bootstrap() {
-  const bootstrapStart = performance.now();
+  const bootstrapStartTimestamp = performance.now();
+
+  const bootstrapCorrelationId = createCorrelationId('bootstrap');
 
   if (environment.production) {
     enableProdMode();
   }
 
   try {
-    const moduleRef = await platformBrowserDynamic().bootstrapModule(AppModule);
+    const moduleReference = await platformBrowserDynamic([
+      { provide: BOOTSTRAP_CORRELATION_ID, useValue: bootstrapCorrelationId },
+    ]).bootstrapModule(AppModule);
 
-    const eventBus = moduleRef.injector.get(EventBusService);
+    const eventBusService = moduleReference.injector.get(EventBusService);
 
-    eventBus.emit(
+    eventBusService.emit(
       createEvent({
         category: 'BOOTSTRAP',
         label: 'Angular bootstrap completed',
         source: 'main.ts',
-        durationMs: Math.round(performance.now() - bootstrapStart),
+        correlationId: bootstrapCorrelationId,
+        durationMs: Math.round(performance.now() - bootstrapStartTimestamp),
       }),
     );
   } catch (err) {
