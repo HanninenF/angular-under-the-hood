@@ -33,18 +33,18 @@ export class EventBusService {
   private readonly _events = new BehaviorSubject<RuntimeEvent[]>([]);
   readonly events$: Observable<RuntimeEvent[]> = this._events.asObservable();
 
-  emit(e: RuntimeEvent): void {
-    const correlationSuffix = e.correlationId
-      ? ` (correlationId: ${e.correlationId})`
+  emit(event: RuntimeEvent): void {
+    const correlationSuffix = event.correlationId
+      ? ` (correlationId: ${event.correlationId})`
       : '';
 
-    const message = `[${e.category}] ${e.label}${correlationSuffix}`;
+    const message = `[${event.category}] ${event.label}${correlationSuffix}`;
 
-    if (e.level === 'error') console.error(message, e);
-    else if (e.level === 'warn') console.warn(message, e);
-    else console.log(message, e);
+    if (event.level === 'error') console.error(message, event);
+    else if (event.level === 'warn') console.warn(message, event);
+    else console.log(message, event);
 
-    const next = [...this._events.value, e];
+    const next = [...this._events.value, event];
     this._events.next(next);
   }
 
