@@ -60,6 +60,25 @@ Structure:
 
 ---
 
+
+
+## 🧬 File lifecycle priority (mandatory)
+
+When explicit Git file lifecycle signals are present, they take
+priority over all content-based interpretation.
+
+Rules:
+
+- If the diff contains `new file mode` or `--- /dev/null`,
+  the change MUST be treated as **adding a new file**.
+- Use verbs such as: `add`, `introduce`, `create`.
+- Do NOT describe the change as an update, revision, or modification.
+
+Content details (format, rules, defaults) are **secondary** and may
+be mentioned only after the file addition is acknowledged.
+
+---
+
 ## ⚠️ Mixed intent handling
 
 If multiple intents are detected in a single diff
@@ -81,7 +100,5 @@ If multiple intents are detected in a single diff
 - No additional commentary
 
 Ask for clarification **only** if the input is genuinely ambiguous.
-```
 
----
 
