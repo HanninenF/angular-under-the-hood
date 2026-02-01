@@ -1,6 +1,13 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { EventBusService } from './core/events/event-bus.service';
 import { createEvent } from './core/events/event-factory';
+import { BOOTSTRAP_CORRELATION_ID } from './core/correlation/bootstrap-correlation-id.token';
 
 @Component({
   selector: 'app-root',
@@ -10,12 +17,17 @@ import { createEvent } from './core/events/event-factory';
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   title = 'client';
 
-  constructor(private readonly eventBus: EventBusService) {
+  constructor(
+    private readonly eventBus: EventBusService,
+    @Inject(BOOTSTRAP_CORRELATION_ID)
+    private readonly bootstrapCorrelationId: string,
+  ) {
     this.eventBus.emit(
       createEvent({
         category: 'LIFECYCLE',
         label: 'AppComponent constructor created',
         source: 'AppComponent',
+        correlationId: this.bootstrapCorrelationId,
       }),
     );
   }
@@ -26,6 +38,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         category: 'LIFECYCLE',
         label: 'AppComponent ngOnInit',
         source: 'AppComponent',
+        correlationId: this.bootstrapCorrelationId,
       }),
     );
   }
