@@ -2,12 +2,13 @@ import { InjectionToken } from '@angular/core';
 
 /**
  * BOOTSTRAP_CORRELATION_ID
- * A DI token that holds the correlationId for the initial Angular bootstrap flow.
+ * En DI-token som innehåller correlationId för det initiala Angular-bootstrapflödet.
  *
- * Why this exists:
- * - The bootstrap flow starts before most services and components are created.
- * - Using an InjectionToken lets us pass the correlationId into the DI container early.
+ * Varför detta finns:
+ * - Bootstrapflödet startar innan de flesta tjänster och komponenter skapas.
+ * - Genom att använda en InjectionToken kan vi skicka in correlationId i DI-containern tidigt.
  */
+
 export const BOOTSTRAP_CORRELATION_ID = new InjectionToken<string>(
   'BOOTSTRAP_CORRELATION_ID',
 );
