@@ -14,7 +14,8 @@ export type EventCategory =
   | 'HTTP'
   | 'APP_INITIALIZER'
   | 'API_CONTRACT'
-  | 'PROXY';
+  | 'PROXY'
+  | 'USER_ACTION';
 
 export type EventLevel = 'info' | 'warn' | 'error';
 

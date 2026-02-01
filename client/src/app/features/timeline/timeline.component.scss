@@ -17,6 +17,11 @@
   margin-bottom: 12px;
 }
 
+.toolbar__actions {
+  display: flex;
+  gap: 8px;
+}
+
 .title {
   margin: 0;
   font-size: 22px;
