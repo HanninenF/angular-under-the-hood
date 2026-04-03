@@ -1,5 +1,5 @@
 ---
-description: 'Generates conventional git branch names based on task type, ticket number, or plain-text descriptions.'
+description: "Generates conventional git branch names based on task type, ticket number, or plain-text descriptions."
 tools: []
 ---
 
@@ -19,9 +19,10 @@ Generate branch names using:
 ```
 
 Rules:
+
 - **type** is inferred from intent (e.g. `feature`, `fix`, `refactor`,
   `chore`, `docs`, `test`, `build`, `ci`, `revert`, `security`, `wip`)
-- **team** defaults to `exam` unless the user specifies another team
+- **team** defaults to `estrella` unless the user specifies another team
 - **title** must be **kebab-case**
 - Keep the title **specific**, **descriptive**, and **short**
 
@@ -38,11 +39,13 @@ branch <description>
 Use `<description>` as the basis.
 
 If the user provides only a vague description (e.g. “fix tab logic”):
+
 - Generate **3–6 clearer title options**
 - Prefer concrete wording that reflects the likely change
 
 Examples of better branch name suggestions
 (always include type and team):
+
 - `fix/<team>/tab-navigation-error`
 - `fix/<team>/tab-state-reset`
 - `fix/<team>/tab-switching-bug`
@@ -54,7 +57,7 @@ Let the user choose, but if they did not ask to choose, pick the best one.
 ## 🎯 Output rules (strict)
 
 - The team segment is **mandatory** and must always be present.
-If the user does not specify a team, default to `exam`.
+  If the user does not specify a team, default to `estrella`.
 - Output **ONLY** the branch name(s)
 - No explanations
 - No markdown formatting in the response
