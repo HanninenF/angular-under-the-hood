@@ -16,6 +16,7 @@ import { BOOTSTRAP_CORRELATION_ID } from './core/correlation/bootstrap-correlati
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   title = 'client';
+  isDebugOutlineEnabled = false;
 
   constructor(
     private readonly eventBus: EventBusService,
@@ -41,6 +42,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         correlationId: this.bootstrapCorrelationId,
       }),
     );
+    this.updateBodyDebugOutlineClass();
   }
 
   ngAfterViewInit(): void {
@@ -49,6 +51,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         category: 'LIFECYCLE',
         label: 'AppComponent ngAfterViewInit',
         source: 'AppComponent',
+        correlationId: this.bootstrapCorrelationId,
       }),
     );
   }
@@ -60,7 +63,17 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         label: 'AppComponent ngOnDestroy',
         source: 'AppComponent',
         level: 'warn',
+        correlationId: this.bootstrapCorrelationId,
       }),
     );
+  }
+
+  toggleDebugOutline(): void {
+    this.isDebugOutlineEnabled = !this.isDebugOutlineEnabled;
+    this.updateBodyDebugOutlineClass();
+  }
+
+  private updateBodyDebugOutlineClass(): void {
+    document.body.classList.toggle('debug-outline', this.isDebugOutlineEnabled);
   }
 }

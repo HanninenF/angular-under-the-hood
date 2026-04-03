@@ -1,4 +1,4 @@
-<div class="page">
+<main class="page">
   <header class="toolbar">
     <div>
       <h1 class="title">Timeline</h1>
@@ -9,48 +9,87 @@
   </header>
 
   <div class="content">
-    <div class="list">
-      <div
-        class="row"
-        *ngFor="let event of (events$ | async) ?? []"
-        (click)="select(event)"
-        [class.row--selected]="selectedEvent?.id === event.id"
-      >
-        <div class="time">+{{ formatMs(event.timestampMs) }}</div>
-        <div class="cat">{{ event.category }}</div>
-        <div class="label">{{ event.label }}</div>
-        <div class="lvl" [class]="'lvl lvl--' + event.level">
-          {{ event.level }}
-        </div>
-      </div>
+    <section class="list" aria-labelledby="timeline-heading">
+      <h2 id="timeline-heading" class="sr-only">Timeline events</h2>
 
-      <div class="empty" *ngIf="((events$ | async) ?? []).length === 0">
+      <ul class="list-wrapper">
+        <li *ngFor="let event of (events$ | async) ?? []">
+          <button
+            class="row"
+            type="button"
+            [class.row--selected]="selectedEvent?.id === event.id"
+            [style.border-left-color]="getFlowColor(event.correlationId)"
+            (click)="select(event)"
+            [class.row--selected]="selectedEvent?.id === event.id"
+            [attr.aria-pressed]="selectedEvent?.id === event.id"
+          >
+            <span class="time">+{{ formatMs(event.timestampMs) }}</span>
+
+            <span class="cat">{{ event.category }}</span>
+
+            <span
+              class="flow-badge"
+              [class.row--selected]="selectedEvent?.id === event.id"
+              [style.background]="getFlowColor(event.correlationId)"
+              *ngIf="event.correlationId"
+            >
+              {{ getShortCorrelationId(event.correlationId) }}
+            </span>
+
+            <span class="label">{{ event.label }}</span>
+
+            <span class="lvl" [class]="'lvl lvl--' + event.level">
+              {{ event.level }}
+            </span>
+          </button>
+        </li>
+      </ul>
+
+      <p class="empty" *ngIf="((events$ | async) ?? []).length === 0">
         Inga events än. Vi lägger till dem i nästa micro-commit.
-      </div>
-    </div>
+      </p>
+    </section>
 
-    <aside class="details" *ngIf="selectedEvent">
-      <div class="details__header">
+    <aside
+      class="details"
+      *ngIf="selectedEvent"
+      aria-labelledby="details-title"
+    >
+      <header class="details__header">
         <div>
-          <div class="details__title">{{ selectedEvent.label }}</div>
-          <div class="details__meta">
-            <span>Category: {{ selectedEvent.category }}</span>
-            <span>Source: {{ selectedEvent.source }}</span>
-            <span *ngIf="selectedEvent.correlationId"
-              >Correlation: {{ selectedEvent.correlationId }}</span
-            >
-            <span *ngIf="selectedEvent.durationMs != null"
-              >Duration: {{ selectedEvent.durationMs }}ms</span
-            >
-          </div>
+          <h2 id="details-title" class="details__title">
+            {{ selectedEvent.label }}
+          </h2>
+
+          <dl class="details__meta">
+            <div>
+              <dt>Category</dt>
+              <dd>{{ selectedEvent.category }}</dd>
+            </div>
+
+            <div>
+              <dt>Source</dt>
+              <dd>{{ selectedEvent.source }}</dd>
+            </div>
+
+            <div *ngIf="selectedEvent.correlationId">
+              <dt>Correlation</dt>
+              <dd>{{ selectedEvent.correlationId }}</dd>
+            </div>
+
+            <div *ngIf="selectedEvent.durationMs != null">
+              <dt>Duration</dt>
+              <dd>{{ selectedEvent.durationMs }}ms</dd>
+            </div>
+          </dl>
         </div>
 
         <button class="btn btn--ghost" type="button" (click)="closeDetails()">
           Close
         </button>
-      </div>
+      </header>
 
       <pre class="json">{{ selectedEvent | json }}</pre>
     </aside>
   </div>
-</div>
+</main>
