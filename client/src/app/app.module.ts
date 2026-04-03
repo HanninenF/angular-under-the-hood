@@ -19,7 +19,7 @@ export class AppModule {
     @Inject(BOOTSTRAP_CORRELATION_ID)
     private readonly bootstrapCorrelationId: string,
   ) {
-    eventBus.emit(
+    this.eventBus.emit(
       createEvent({
         category: 'BOOTSTRAP',
         label: 'AppModule created',

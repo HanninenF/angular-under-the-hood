@@ -1,3 +1,8 @@
 <h1>Level 0</h1>
 <p>open console to see körflöde</p>
+<button type="button" (click)="toggleDebugOutline()">
+  {{
+    isDebugOutlineEnabled ? "Turn off debug outline" : "Turn on debug outline"
+  }}
+</button>
 <app-timeline></app-timeline>
