@@ -49,6 +49,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         category: 'LIFECYCLE',
         label: 'AppComponent ngAfterViewInit',
         source: 'AppComponent',
+        correlationId: this.bootstrapCorrelationId,
       }),
     );
   }
@@ -60,6 +61,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         label: 'AppComponent ngOnDestroy',
         source: 'AppComponent',
         level: 'warn',
+        correlationId: this.bootstrapCorrelationId,
       }),
     );
   }
