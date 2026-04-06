@@ -1,7 +1,7 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
-import { enableProdMode } from '@angular/core';
+import { enableProdMode, NgZone } from '@angular/core';
 import { EventBusService } from './app/core/events/event-bus.service';
 import { environment } from './environments/environments';
 import { createEvent } from './app/core/events/event-factory';
@@ -25,18 +25,22 @@ async function bootstrap() {
     ]).bootstrapModule(AppModule);
 
     const eventBusService = moduleReference.injector.get(EventBusService);
+    const ngZone = moduleReference.injector.get(NgZone);
 
-    eventBusService.emit(
-      createEvent({
-        category: 'BOOTSTRAP',
-        label: 'Angular bootstrap completed',
-        source: 'main.ts',
-        correlationId: bootstrapCorrelationId,
-        durationMs: Math.round(performance.now() - bootstrapStartTimestamp),
-      }),
-    );
+    ngZone.run(() => {
+      eventBusService.emit(
+        createEvent({
+          category: 'BOOTSTRAP',
+          label: 'Angular bootstrap completed',
+          source: 'main.ts',
+          correlationId: bootstrapCorrelationId,
+          durationMs: Math.round(performance.now() - bootstrapStartTimestamp),
+        }),
+      );
+    });
   } catch (err) {
     console.error('[main.ts] bootstrap error', err);
   }
 }
+
 bootstrap();
