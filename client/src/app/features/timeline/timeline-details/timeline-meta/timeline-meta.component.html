@@ -1,0 +1,23 @@
+<ng-container *ngIf="selectedEvent">
+  <dl class="details__meta">
+    <div>
+      <dt>Category</dt>
+      <dd class="source">{{ selectedEvent.category }}</dd>
+    </div>
+
+    <div>
+      <dt>Source</dt>
+      <dd class="source">{{ selectedEvent.source }}</dd>
+    </div>
+
+    <div *ngIf="selectedEvent.correlationId">
+      <dt>Correlation</dt>
+      <dd class="source">{{ selectedEvent.correlationId }}</dd>
+    </div>
+
+    <div *ngIf="selectedEvent.durationMs != null">
+      <dt>Duration</dt>
+      <dd class="source">{{ selectedEvent.durationMs }}ms</dd>
+    </div>
+  </dl>
+</ng-container>

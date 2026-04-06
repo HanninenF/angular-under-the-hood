@@ -1,0 +1,17 @@
+<aside class="details" *ngIf="selectedEvent" aria-labelledby="details-title">
+  <header class="details__header">
+    <div>
+      <h2 id="details-title" class="details__title">
+        {{ selectedEvent.label }}
+      </h2>
+
+      <app-timeline-meta [selectedEvent]="selectedEvent"></app-timeline-meta>
+    </div>
+
+    <button class="btn btn--ghost" type="button" (click)="closeDetails.emit()">
+      Close
+    </button>
+  </header>
+
+  <pre class="json">{{ selectedEvent | json }}</pre>
+</aside>

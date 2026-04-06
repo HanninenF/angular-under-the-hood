@@ -46,14 +46,16 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.eventBus.emit(
-      createEvent({
-        category: 'LIFECYCLE',
-        label: 'AppComponent ngAfterViewInit',
-        source: 'AppComponent',
-        correlationId: this.bootstrapCorrelationId,
-      }),
-    );
+    queueMicrotask(() => {
+      this.eventBus.emit(
+        createEvent({
+          category: 'LIFECYCLE',
+          label: 'AppComponent ngAfterViewInit',
+          source: 'AppComponent',
+          correlationId: this.bootstrapCorrelationId,
+        }),
+      );
+    });
   }
 
   ngOnDestroy(): void {

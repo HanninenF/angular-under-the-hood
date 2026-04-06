@@ -1,0 +1,39 @@
+<section class="list" aria-labelledby="timeline-heading">
+  <h2 id="timeline-heading" class="sr-only">Timeline events</h2>
+
+  <ul class="list-wrapper">
+    <li *ngFor="let event of (events$ | async) ?? []">
+      <button
+        class="row"
+        type="button"
+        [class.row--selected]="selectedEvent?.id === event.id"
+        [style.border-left-color]="getFlowColor(event.correlationId)"
+        (click)="selectEvent.emit(event)"
+        [attr.aria-pressed]="selectedEvent?.id === event.id"
+      >
+        <span class="time">+{{ formatMs(event.timestampMs) }}</span>
+
+        <span class="cat">{{ event.category }}</span>
+
+        <span
+          class="flow-badge"
+          [class.row--selected]="selectedEvent?.id === event.id"
+          [style.background]="getFlowColor(event.correlationId)"
+          *ngIf="event.correlationId"
+        >
+          {{ getShortCorrelationId(event.correlationId) }}
+        </span>
+
+        <span class="label">{{ event.label }}</span>
+
+        <span class="lvl" [class]="'lvl lvl--' + event.level">
+          {{ event.level }}
+        </span>
+      </button>
+    </li>
+  </ul>
+
+  <p class="empty" *ngIf="((events$ | async) ?? []).length === 0">
+    Inga events än. Vi lägger till dem i nästa micro-commit.
+  </p>
+</section>

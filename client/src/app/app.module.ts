@@ -6,9 +6,20 @@ import { TimelineComponent } from './features/timeline/timeline.component';
 import { EventBusService } from './core/events/event-bus.service';
 import { createEvent } from './core/events/event-factory';
 import { BOOTSTRAP_CORRELATION_ID } from './core/correlation/bootstrap-correlation-id.token';
+import { PageWrapper } from './features/page-wrapper/page-wrapper';
+import { TimelineDetailsComponent } from './features/timeline/timeline-details/timeline-details.component';
+import { TimelineListComponent } from './features/timeline/timeline-list/timeline-list.component';
+import { TimelineMetaComponent } from './features/timeline/timeline-details/timeline-meta/timeline-meta.component';
 
 @NgModule({
-  declarations: [AppComponent, TimelineComponent],
+  declarations: [
+    AppComponent,
+    TimelineComponent,
+    PageWrapper,
+    TimelineDetailsComponent,
+    TimelineListComponent,
+    TimelineMetaComponent,
+  ],
   imports: [BrowserModule],
   providers: [],
   bootstrap: [AppComponent],

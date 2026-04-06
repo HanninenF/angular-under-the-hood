@@ -16,7 +16,7 @@ export class TimelineComponent {
 
   constructor(private readonly eventBus: EventBusService) {}
 
-  select(event: RuntimeEvent): void {
+  selectEvent(event: RuntimeEvent): void {
     this.selectedEvent = event;
   }
 
@@ -27,25 +27,5 @@ export class TimelineComponent {
   clear(): void {
     this.closeDetails();
     this.eventBus.clear();
-  }
-
-  formatMs(ms: number): string {
-    return `${Math.round(ms)}ms`;
-  }
-
-  getShortCorrelationId = getShortCorrelationId;
-
-  getFlowColor(id?: string): string {
-    if (!id) return 'transparent';
-
-    let hash = 0;
-
-    for (let i = 0; i < id.length; i++) {
-      hash = id.charCodeAt(i) + ((hash << 5) - hash);
-    }
-
-    const hue = hash % 360;
-
-    return `hsl(${hue}, 96%, 78%)`;
   }
 }
