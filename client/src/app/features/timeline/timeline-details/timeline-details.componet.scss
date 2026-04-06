@@ -1,0 +1,22 @@
+.details__header {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--rime-space-sm-md);
+  padding: var(--rime-space-sm-md);
+  border-bottom: var(--rime-space-xx-xs) solid #f0f0f0;
+}
+
+.details__title {
+  font-weight: 700;
+  margin-bottom: var(--rime-space-xs-sm);
+}
+
+.json {
+  border-radius: 10px;
+  margin: var(--rime-space-0);
+  padding: var(--rime-space-sm-md);
+  background: #0b1020;
+  color: #e7e7e7;
+  overflow: auto;
+  max-height: 70vh;
+}

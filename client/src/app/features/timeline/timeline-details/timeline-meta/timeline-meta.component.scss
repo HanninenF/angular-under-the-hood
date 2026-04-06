@@ -1,0 +1,10 @@
+.details__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--rime-space-sm-smd);
+  color: #555;
+}
+
+.source {
+  color: var(--rime-color-tertiary);
+}
