@@ -6,7 +6,7 @@ import { getShortCorrelationId } from '../../../core/correlation/correlation-id'
 @Component({
   selector: 'app-timeline-list',
   templateUrl: './timeline-list.component.html',
-  styleUrl: './timeline-list.component.scss',
+  styleUrls: ['./timeline-list.component.scss'],
 })
 export class TimelineListComponent {
   @Input() events$?: Observable<RuntimeEvent[]>;

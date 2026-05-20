@@ -1,0 +1,13 @@
+{
+  "stylelint.enable": true,
+  "stylelint.validate": ["css", "scss"],
+  "stylelint.packageManager": "npm",
+  "stylelint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.stylelint": "explicit"
+  }
+}

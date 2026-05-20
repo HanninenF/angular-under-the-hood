@@ -5,6 +5,12 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "typecheck": "tsc -p tsconfig.app.json --noEmit",
+    "lint:styles": "stylelint \"src/**/*.{css,scss}\"",
+    "lint": "npm run lint:styles && eslint .",
+    "lint:fix": "stylelint \"src/**/*.{css,scss}\" --fix && eslint . --fix",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -24,15 +30,26 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.3.17",
+    "@angular-eslint/eslint-plugin": "^21.4.0",
+    "@angular-eslint/eslint-plugin-template": "^21.4.0",
+    "@angular-eslint/template-parser": "^21.4.0",
     "@angular/cli": "^17.3.17",
     "@angular/compiler-cli": "^17.3.0",
+    "@eslint/js": "^10.0.1",
     "@types/jasmine": "~5.1.0",
+    "eslint": "^10.4.0",
+    "eslint-config-prettier": "^10.1.8",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.4.2"
+    "prettier": "^3.8.3",
+    "stylelint": "^17.12.0",
+    "stylelint-config-standard-scss": "^17.0.0",
+    "stylelint-declaration-strict-value": "^1.11.1",
+    "typescript": "~5.4.2",
+    "typescript-eslint": "^8.59.4"
   }
 }
