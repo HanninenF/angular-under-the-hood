@@ -1,7 +1,7 @@
 import {
   AfterViewInit,
   Component,
-  Inject,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -12,17 +12,16 @@ import { BOOTSTRAP_CORRELATION_ID } from './core/correlation/bootstrap-correlati
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
+  private readonly eventBus = inject(EventBusService);
+  private readonly bootstrapCorrelationId = inject(BOOTSTRAP_CORRELATION_ID);
+
   title = 'client';
   isDebugOutlineEnabled = false;
 
-  constructor(
-    private readonly eventBus: EventBusService,
-    @Inject(BOOTSTRAP_CORRELATION_ID)
-    private readonly bootstrapCorrelationId: string,
-  ) {
+  constructor() {
     this.eventBus.emit(
       createEvent({
         category: 'LIFECYCLE',
