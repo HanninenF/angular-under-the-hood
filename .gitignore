@@ -1,6 +1,6 @@
 # Ignore exam work artifacts in the docs folder.
 docs/examensarbete/
-docs/ticket-workflow.md
+docs/architecture.md
 docs/demo-plan.md
 docs/demo-tickets.md
-docs/architecture.md
+docs/ticket-workflow.md

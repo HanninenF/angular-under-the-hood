@@ -8,6 +8,7 @@ import {
 import { EventBusService } from './core/events/event-bus.service';
 import { createEvent } from './core/events/event-factory';
 import { BOOTSTRAP_CORRELATION_ID } from './core/correlation/bootstrap-correlation-id.token';
+import { DemoView } from './features/page-wrapper/page-wrapper';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly bootstrapCorrelationId = inject(BOOTSTRAP_CORRELATION_ID);
 
   title = 'client';
+  activeView: DemoView = 'timeline';
   isDebugOutlineEnabled = false;
 
   constructor() {
@@ -69,9 +71,31 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
+  setActiveView(view: DemoView): void {
+    this.activeView = view;
+    this.eventBus.emit(
+      createEvent({
+        category: 'LIFECYCLE',
+        label: `AppComponent active view changed to ${view}`,
+        source: 'AppComponent',
+        correlationId: this.bootstrapCorrelationId,
+      }),
+    );
+  }
+
   toggleDebugOutline(): void {
     this.isDebugOutlineEnabled = !this.isDebugOutlineEnabled;
     this.updateBodyDebugOutlineClass();
+    this.eventBus.emit(
+      createEvent({
+        category: 'LIFECYCLE',
+        label: `AppComponent debug outline ${
+          this.isDebugOutlineEnabled ? 'enabled' : 'disabled'
+        }`,
+        source: 'AppComponent',
+        correlationId: this.bootstrapCorrelationId,
+      }),
+    );
   }
 
   private updateBodyDebugOutlineClass(): void {
