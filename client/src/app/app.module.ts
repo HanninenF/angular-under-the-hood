@@ -10,6 +10,7 @@ import { PageWrapper } from './features/page-wrapper/page-wrapper';
 import { TimelineDetailsComponent } from './features/timeline/timeline-details/timeline-details.component';
 import { TimelineListComponent } from './features/timeline/timeline-list/timeline-list.component';
 import { TimelineMetaComponent } from './features/timeline/timeline-details/timeline-meta/timeline-meta.component';
+import { SettingsComponent } from './features/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { TimelineMetaComponent } from './features/timeline/timeline-details/time
     TimelineDetailsComponent,
     TimelineListComponent,
     TimelineMetaComponent,
+    SettingsComponent,
   ],
   imports: [BrowserModule],
   providers: [],

@@ -1,8 +1,14 @@
-<h1>Level 0</h1>
-<p>open console to see körflöde</p>
-<button type="button" (click)="toggleDebugOutline()">
-  {{
-    isDebugOutlineEnabled ? 'Turn off debug outline' : 'Turn on debug outline'
-  }}
-</button>
-<app-page-wrapper></app-page-wrapper>
+<app-page-wrapper
+  [activeView]="activeView"
+  [isDebugOutlineEnabled]="isDebugOutlineEnabled"
+  (activeViewChange)="setActiveView($event)"
+  (toggleDebugOutline)="toggleDebugOutline()"
+>
+  @if (activeView === 'timeline') {
+    <app-timeline></app-timeline>
+  }
+
+  @if (activeView === 'settings') {
+    <app-settings></app-settings>
+  }
+</app-page-wrapper>

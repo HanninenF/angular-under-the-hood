@@ -1,3 +1,39 @@
+<header class="shell">
+  <div class="shell__copy">
+    <p class="eyebrow">Level 0</p>
+    <h1 class="title">Angular under the hood</h1>
+    <p class="subtitle">open console to see körflöde</p>
+  </div>
+
+  <nav class="shell__nav" aria-label="Demo navigation">
+    <button
+      type="button"
+      class="nav-button"
+      [class.nav-button--active]="activeView === 'timeline'"
+      (click)="activeViewChange.emit('timeline')"
+    >
+      Timeline
+    </button>
+
+    <button
+      type="button"
+      class="nav-button"
+      [class.nav-button--active]="activeView === 'settings'"
+      (click)="activeViewChange.emit('settings')"
+    >
+      Settings
+    </button>
+
+    <button class="btn" type="button" (click)="toggleDebugOutline.emit()">
+      {{
+        isDebugOutlineEnabled
+          ? 'Turn off debug outline'
+          : 'Turn on debug outline'
+      }}
+    </button>
+  </nav>
+</header>
+
 <main class="page">
-  <app-timeline></app-timeline>
+  <ng-content></ng-content>
 </main>
