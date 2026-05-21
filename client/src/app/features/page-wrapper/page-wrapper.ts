@@ -13,4 +13,10 @@ export class PageWrapper {
 
   @Output() readonly activeViewChange = new EventEmitter<DemoView>();
   @Output() readonly toggleDebugOutline = new EventEmitter<void>();
+
+  get debugOutlineButtonLabel(): string {
+    return this.isDebugOutlineEnabled
+      ? 'Turn off debug outline'
+      : 'Turn on debug outline';
+  }
 }

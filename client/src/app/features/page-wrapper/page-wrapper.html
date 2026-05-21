@@ -25,11 +25,7 @@
     </button>
 
     <button class="btn" type="button" (click)="toggleDebugOutline.emit()">
-      {{
-        isDebugOutlineEnabled
-          ? 'Turn off debug outline'
-          : 'Turn on debug outline'
-      }}
+      {{ debugOutlineButtonLabel }}
     </button>
   </nav>
 </header>
