@@ -1,11 +1,23 @@
 <app-page-wrapper
   [activeView]="activeView"
   [isDebugOutlineEnabled]="isDebugOutlineEnabled"
+  [isPaused]="isPaused"
+  [isAutoScrollEnabled]="isAutoScrollEnabled"
   (activeViewChange)="setActiveView($event)"
   (toggleDebugOutline)="toggleDebugOutline()"
+  (togglePause)="togglePause()"
+  (toggleAutoScroll)="toggleAutoScroll()"
+  (clearTimeline)="clearTimeline()"
 >
   @if (activeView === 'timeline') {
-    <app-timeline></app-timeline>
+    <app-timeline
+      [events$]="timelineEvents$"
+      [selectedEvent]="selectedEvent"
+      [isPaused]="isPaused"
+      [isAutoScrollEnabled]="isAutoScrollEnabled"
+      (selectEvent)="selectEvent($event)"
+      (closeDetails)="closeDetails()"
+    ></app-timeline>
   }
 
   @if (activeView === 'settings') {

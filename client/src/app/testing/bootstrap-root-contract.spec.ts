@@ -16,7 +16,14 @@ import { RuntimeEvent } from '../core/events/runtime-event.model';
 import { emitBootstrapCompletedEvent } from '../bootstrap/emit-bootstrap-completed-event';
 import { AppComponent } from '../app.component';
 import { AppModule } from '../app.module';
+import { PageWrapper } from '../features/page-wrapper/page-wrapper';
+import { SettingsComponent } from '../features/settings/settings.component';
+import { LifecyclePreferencesCardComponent } from '../features/lifecycle-demo/lifecycle-preferences-card.component';
+import { LifecycleProfileCardComponent } from '../features/lifecycle-demo/lifecycle-profile-card.component';
 import { TimelineComponent } from '../features/timeline/timeline.component';
+import { TimelineDetailsComponent } from '../features/timeline/timeline-details/timeline-details.component';
+import { TimelineMetaComponent } from '../features/timeline/timeline-details/timeline-meta/timeline-meta.component';
+import { TimelineListComponent } from '../features/timeline/timeline-list/timeline-list.component';
 
 function observeEvents(eventBus: EventBusService): {
   state: { latestEvents: RuntimeEvent[] };
@@ -144,55 +151,246 @@ describe('bootstrap and root contract', () => {
     subscription.unsubscribe();
   }));
 
-  it('allows TimelineComponent to clear the event stream and reset selection', fakeAsync(() => {
+  it('keeps timeline controls at the shell level so pause and auto-scroll survive view changes', fakeAsync(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule],
-      declarations: [TimelineComponent],
-      providers: [EventBusService],
-      schemas: [NO_ERRORS_SCHEMA],
+      declarations: [
+        AppComponent,
+        PageWrapper,
+        TimelineComponent,
+        TimelineListComponent,
+        TimelineDetailsComponent,
+        TimelineMetaComponent,
+        SettingsComponent,
+        LifecycleProfileCardComponent,
+        LifecyclePreferencesCardComponent,
+      ],
+      providers: [
+        EventBusService,
+        {
+          provide: BOOTSTRAP_CORRELATION_ID,
+          useValue: 'bootstrap-root-test',
+        },
+      ],
     });
 
     const eventBus = TestBed.inject(EventBusService);
     const { subscription, state } = observeEvents(eventBus);
-    const fixture: ComponentFixture<TimelineComponent> =
-      TestBed.createComponent(TimelineComponent);
+    const fixture: ComponentFixture<AppComponent> =
+      TestBed.createComponent(AppComponent);
 
     fixture.detectChanges();
+    flushMicrotasks();
 
-    const timelineEvent = createEvent({
+    const getButtons = (): HTMLButtonElement[] =>
+      Array.from(fixture.nativeElement.querySelectorAll('button'));
+    const getRows = (): HTMLButtonElement[] =>
+      Array.from(
+        fixture.nativeElement.querySelectorAll('.list-wrapper button.row'),
+      ) as HTMLButtonElement[];
+
+    const initialEvent = createEvent({
       category: 'BOOTSTRAP',
       label: 'Synthetic bootstrap event',
       source: 'test',
       correlationId: createCorrelationId('bootstrap'),
     });
 
-    eventBus.emit(timelineEvent);
+    eventBus.emit(initialEvent);
     flushMicrotasks();
     fixture.detectChanges();
 
-    expect(state.latestEvents.length).toBe(1);
-    expect(state.latestEvents[0]).toEqual(timelineEvent);
+    const initialRows = getRows().length;
+    expect(initialRows).toBeGreaterThan(0);
 
-    fixture.componentInstance.selectedEvent = timelineEvent;
+    const pauseButton = getButtons().find((button) =>
+      button.textContent?.includes('Pause'),
+    );
+
+    expect(pauseButton).toBeDefined();
+    pauseButton?.click();
     fixture.detectChanges();
 
-    const clearButton = Array.from(
-      fixture.nativeElement.querySelectorAll('button'),
-    ) as HTMLButtonElement[];
-    const clearControl = clearButton.find((button) =>
+    const settingsButton = getButtons().find((button) =>
+      button.textContent?.includes('Settings'),
+    );
+
+    expect(settingsButton).toBeDefined();
+    settingsButton?.click();
+    fixture.detectChanges();
+    flushMicrotasks();
+
+    const pausedEvent = createEvent({
+      category: 'HTTP',
+      label: 'event while paused',
+      source: 'test',
+      correlationId: createCorrelationId('bootstrap'),
+    });
+
+    eventBus.emit(pausedEvent);
+    flushMicrotasks();
+    fixture.detectChanges();
+
+    const timelineButton = getButtons().find((button) =>
+      button.textContent?.includes('Timeline'),
+    );
+
+    expect(timelineButton).toBeDefined();
+    timelineButton?.click();
+    fixture.detectChanges();
+    flushMicrotasks();
+
+    expect(getRows().length).toBe(initialRows);
+
+    const resumeButton = getButtons().find((button) =>
+      button.textContent?.includes('Resume'),
+    );
+
+    expect(resumeButton).toBeDefined();
+    resumeButton?.click();
+    fixture.detectChanges();
+    flushMicrotasks();
+
+    expect(getRows().length).toBeGreaterThan(initialRows);
+    expect(
+      getRows().some((row) =>
+        row.textContent?.includes('event while paused'),
+      ),
+    ).toBeTrue();
+    expect(
+      state.latestEvents.some((event) => event.label === 'event while paused'),
+    ).toBeTrue();
+
+    subscription.unsubscribe();
+    fixture.destroy();
+  }));
+
+  it('clears the shell-managed timeline stream and resets the selected event', fakeAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [CommonModule],
+      declarations: [
+        AppComponent,
+        PageWrapper,
+        TimelineComponent,
+        TimelineListComponent,
+        TimelineDetailsComponent,
+        TimelineMetaComponent,
+        SettingsComponent,
+        LifecycleProfileCardComponent,
+        LifecyclePreferencesCardComponent,
+      ],
+      providers: [
+        EventBusService,
+        {
+          provide: BOOTSTRAP_CORRELATION_ID,
+          useValue: 'bootstrap-root-test',
+        },
+      ],
+    });
+
+    const eventBus = TestBed.inject(EventBusService);
+    const { subscription, state } = observeEvents(eventBus);
+    const fixture: ComponentFixture<AppComponent> =
+      TestBed.createComponent(AppComponent);
+
+    fixture.detectChanges();
+    flushMicrotasks();
+
+    const getButtons = (): HTMLButtonElement[] =>
+      Array.from(fixture.nativeElement.querySelectorAll('button'));
+    const getRows = (): HTMLButtonElement[] =>
+      Array.from(
+        fixture.nativeElement.querySelectorAll('.list-wrapper button.row'),
+      ) as HTMLButtonElement[];
+
+    eventBus.emit(
+      createEvent({
+        category: 'BOOTSTRAP',
+        label: 'clear target event',
+        source: 'test',
+        correlationId: createCorrelationId('bootstrap'),
+      }),
+    );
+    flushMicrotasks();
+    fixture.detectChanges();
+
+    const firstRow = getRows()[0];
+    expect(firstRow).toBeDefined();
+    firstRow.click();
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('.details')).toBeTruthy();
+
+    const clearButton = getButtons().find((button) =>
       button.textContent?.includes('Clear'),
     );
 
-    expect(clearControl).toBeDefined();
-
-    clearControl?.click();
+    expect(clearButton).toBeDefined();
+    clearButton?.click();
     fixture.detectChanges();
     flushMicrotasks();
 
-    expect(fixture.componentInstance.selectedEvent).toBeUndefined();
+    expect(getRows().length).toBe(0);
+    expect(fixture.nativeElement.querySelector('.details')).toBeNull();
     expect(state.latestEvents).toEqual([]);
 
     subscription.unsubscribe();
+    fixture.destroy();
+  }));
+
+  it('auto-scrolls the timeline viewport when the shell control is enabled', fakeAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [CommonModule],
+      declarations: [
+        AppComponent,
+        PageWrapper,
+        TimelineComponent,
+        TimelineListComponent,
+        TimelineDetailsComponent,
+        TimelineMetaComponent,
+        SettingsComponent,
+        LifecycleProfileCardComponent,
+        LifecyclePreferencesCardComponent,
+      ],
+      providers: [
+        EventBusService,
+        {
+          provide: BOOTSTRAP_CORRELATION_ID,
+          useValue: 'bootstrap-root-test',
+        },
+      ],
+    });
+
+    const eventBus = TestBed.inject(EventBusService);
+    const fixture: ComponentFixture<AppComponent> =
+      TestBed.createComponent(AppComponent);
+
+    fixture.detectChanges();
+    flushMicrotasks();
+
+    const listViewport = fixture.nativeElement.querySelector(
+      '.list-viewport',
+    ) as HTMLElement;
+
+    expect(listViewport).toBeTruthy();
+
+    spyOnProperty(listViewport, 'scrollHeight', 'get').and.returnValue(640);
+    const scrollTopSpy = spyOnProperty(listViewport, 'scrollTop', 'set');
+
+    eventBus.emit(
+      createEvent({
+        category: 'BOOTSTRAP',
+        label: 'scroll target event',
+        source: 'test',
+        correlationId: createCorrelationId('bootstrap'),
+      }),
+    );
+
+    flushMicrotasks();
+    fixture.detectChanges();
+
+    expect(scrollTopSpy).toHaveBeenCalledWith(640);
+
     fixture.destroy();
   }));
 

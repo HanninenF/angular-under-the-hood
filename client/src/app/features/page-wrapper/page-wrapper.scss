@@ -43,6 +43,13 @@
   gap: var(--rime-space-xxs);
 }
 
+.shell__controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--rime-space-xxs);
+}
+
 .nav-button,
 .btn {
   font: inherit;

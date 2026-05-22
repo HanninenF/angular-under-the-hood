@@ -28,6 +28,20 @@
       {{ debugOutlineButtonLabel }}
     </button>
   </nav>
+
+  <div class="shell__controls" aria-label="Timeline controls">
+    <button class="btn" type="button" (click)="togglePause.emit()">
+      {{ pauseButtonLabel }}
+    </button>
+
+    <button class="btn" type="button" (click)="toggleAutoScroll.emit()">
+      {{ autoScrollButtonLabel }}
+    </button>
+
+    <button class="btn" type="button" (click)="clearTimeline.emit()">
+      Clear
+    </button>
+  </div>
 </header>
 
 <main class="page">
