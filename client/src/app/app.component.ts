@@ -73,29 +73,11 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   setActiveView(view: DemoView): void {
     this.activeView = view;
-    this.eventBus.emit(
-      createEvent({
-        category: 'LIFECYCLE',
-        label: `AppComponent active view changed to ${view}`,
-        source: 'AppComponent',
-        correlationId: this.bootstrapCorrelationId,
-      }),
-    );
   }
 
   toggleDebugOutline(): void {
     this.isDebugOutlineEnabled = !this.isDebugOutlineEnabled;
     this.updateBodyDebugOutlineClass();
-    this.eventBus.emit(
-      createEvent({
-        category: 'LIFECYCLE',
-        label: `AppComponent debug outline ${
-          this.isDebugOutlineEnabled ? 'enabled' : 'disabled'
-        }`,
-        source: 'AppComponent',
-        correlationId: this.bootstrapCorrelationId,
-      }),
-    );
   }
 
   private updateBodyDebugOutlineClass(): void {

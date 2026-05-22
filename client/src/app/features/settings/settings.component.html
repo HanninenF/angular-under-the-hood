@@ -1,7 +1,8 @@
 <section class="settings">
   <h2 class="settings__title">Settings</h2>
   <p class="settings__lead">
-    This page is a placeholder for demo toggles and environment information.
+    This page is a placeholder for demo toggles, environment information and a
+    small lifecycle showcase.
   </p>
 
   <dl class="settings__grid">
@@ -20,4 +21,46 @@
       <dd>{{ storageMode }}</dd>
     </div>
   </dl>
+
+  <section class="lifecycle-demo" aria-labelledby="lifecycle-demo-heading">
+    <div class="lifecycle-demo__header">
+      <div>
+        <h3 id="lifecycle-demo-heading" class="lifecycle-demo__title">
+          Lifecycle showcase
+        </h3>
+        <p class="lifecycle-demo__lead">
+          Switching tabs mounts a different component so constructor, ngOnInit
+          and ngOnDestroy become visible in the timeline.
+        </p>
+      </div>
+
+      <div class="lifecycle-demo__actions">
+        <button
+          type="button"
+          class="tab-button"
+          [class.tab-button--active]="activeTab === 'profile'"
+          (click)="setActiveTab('profile')"
+        >
+          Profile card
+        </button>
+
+        <button
+          type="button"
+          class="tab-button"
+          [class.tab-button--active]="activeTab === 'preferences'"
+          (click)="setActiveTab('preferences')"
+        >
+          Preferences card
+        </button>
+      </div>
+    </div>
+
+    @if (activeTab === 'profile') {
+      <app-lifecycle-profile-card></app-lifecycle-profile-card>
+    }
+
+    @if (activeTab === 'preferences') {
+      <app-lifecycle-preferences-card></app-lifecycle-preferences-card>
+    }
+  </section>
 </section>
