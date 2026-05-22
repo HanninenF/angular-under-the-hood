@@ -5,6 +5,8 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { RuntimeEvent } from './core/events/runtime-event.model';
 import { EventBusService } from './core/events/event-bus.service';
 import { createEvent } from './core/events/event-factory';
 import { BOOTSTRAP_CORRELATION_ID } from './core/correlation/bootstrap-correlation-id.token';
@@ -18,10 +20,21 @@ import { DemoView } from './features/page-wrapper/page-wrapper';
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly eventBus = inject(EventBusService);
   private readonly bootstrapCorrelationId = inject(BOOTSTRAP_CORRELATION_ID);
+  private readonly eventSubscription = new Subscription();
+  private readonly visibleTimelineEventsSubject = new BehaviorSubject<
+    RuntimeEvent[]
+  >([]);
+
+  private allTimelineEvents: RuntimeEvent[] = [];
 
   title = 'client';
   activeView: DemoView = 'timeline';
   isDebugOutlineEnabled = false;
+  isPaused = false;
+  isAutoScrollEnabled = true;
+  selectedEvent?: RuntimeEvent;
+
+  readonly timelineEvents$ = this.visibleTimelineEventsSubject.asObservable();
 
   constructor() {
     this.eventBus.emit(
@@ -35,6 +48,22 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.eventSubscription.add(
+      this.eventBus.events$.subscribe((events) => {
+        this.allTimelineEvents = events;
+
+        if (events.length === 0) {
+          this.selectedEvent = undefined;
+          this.visibleTimelineEventsSubject.next([]);
+          return;
+        }
+
+        if (!this.isPaused) {
+          this.visibleTimelineEventsSubject.next(events);
+        }
+      }),
+    );
+
     this.eventBus.emit(
       createEvent({
         category: 'LIFECYCLE',
@@ -60,6 +89,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.eventSubscription.unsubscribe();
     this.eventBus.emit(
       createEvent({
         category: 'LIFECYCLE',
@@ -73,6 +103,33 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   setActiveView(view: DemoView): void {
     this.activeView = view;
+  }
+
+  selectEvent(event: RuntimeEvent): void {
+    this.selectedEvent = event;
+  }
+
+  closeDetails(): void {
+    this.selectedEvent = undefined;
+  }
+
+  clearTimeline(): void {
+    this.closeDetails();
+    this.allTimelineEvents = [];
+    this.visibleTimelineEventsSubject.next([]);
+    this.eventBus.clear();
+  }
+
+  togglePause(): void {
+    this.isPaused = !this.isPaused;
+
+    if (!this.isPaused) {
+      this.visibleTimelineEventsSubject.next(this.allTimelineEvents);
+    }
+  }
+
+  toggleAutoScroll(): void {
+    this.isAutoScrollEnabled = !this.isAutoScrollEnabled;
   }
 
   toggleDebugOutline(): void {

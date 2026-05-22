@@ -10,13 +10,26 @@ export type DemoView = 'timeline' | 'settings';
 export class PageWrapper {
   @Input() activeView: DemoView = 'timeline';
   @Input() isDebugOutlineEnabled = false;
+  @Input() isPaused = false;
+  @Input() isAutoScrollEnabled = true;
 
   @Output() readonly activeViewChange = new EventEmitter<DemoView>();
   @Output() readonly toggleDebugOutline = new EventEmitter<void>();
+  @Output() readonly togglePause = new EventEmitter<void>();
+  @Output() readonly toggleAutoScroll = new EventEmitter<void>();
+  @Output() readonly clearTimeline = new EventEmitter<void>();
 
   get debugOutlineButtonLabel(): string {
     return this.isDebugOutlineEnabled
       ? 'Turn off debug outline'
       : 'Turn on debug outline';
+  }
+
+  get pauseButtonLabel(): string {
+    return this.isPaused ? 'Resume' : 'Pause';
+  }
+
+  get autoScrollButtonLabel(): string {
+    return this.isAutoScrollEnabled ? 'Auto-scroll on' : 'Auto-scroll off';
   }
 }

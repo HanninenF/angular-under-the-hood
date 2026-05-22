@@ -1,21 +1,26 @@
 <header class="toolbar">
   <div>
     <h1 class="title">Timeline</h1>
-    <p class="subtitle">Level 0 — events i realtid</p>
+    <p class="subtitle">
+      Level 0 — events i realtid
+      @if (isPaused) {
+        <span class="status">Paused</span>
+      }
+    </p>
   </div>
-
-  <button class="btn" type="button" (click)="clear()">Clear</button>
 </header>
 
 <div class="content">
-  <app-timeline-list
-    [events$]="events$"
-    [selectedEvent]="selectedEvent"
-    (selectEvent)="selectEvent($event)"
-  ></app-timeline-list>
+  <div #listViewport class="list-viewport">
+    <app-timeline-list
+      [events$]="events$"
+      [selectedEvent]="selectedEvent"
+      (selectEvent)="selectEvent.emit($event)"
+    ></app-timeline-list>
+  </div>
 
   <app-timeline-details
     [selectedEvent]="selectedEvent"
-    (closeDetails)="closeDetails()"
+    (closeDetails)="closeDetails.emit()"
   ></app-timeline-details>
 </div>
