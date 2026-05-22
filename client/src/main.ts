@@ -4,9 +4,9 @@ import { AppModule } from './app/app.module';
 import { enableProdMode, NgZone } from '@angular/core';
 import { EventBusService } from './app/core/events/event-bus.service';
 import { environment } from './environments/environments';
-import { createEvent } from './app/core/events/event-factory';
 import { createCorrelationId } from './app/core/correlation/correlation-id';
 import { BOOTSTRAP_CORRELATION_ID } from './app/core/correlation/bootstrap-correlation-id.token';
+import { emitBootstrapCompletedEvent } from './app/bootstrap/emit-bootstrap-completed-event';
 
 console.log(`[main.ts] startar filen`);
 
@@ -27,16 +27,11 @@ async function bootstrap() {
     const eventBusService = moduleReference.injector.get(EventBusService);
     const ngZone = moduleReference.injector.get(NgZone);
 
-    ngZone.run(() => {
-      eventBusService.emit(
-        createEvent({
-          category: 'BOOTSTRAP',
-          label: 'Angular bootstrap completed',
-          source: 'main.ts',
-          correlationId: bootstrapCorrelationId,
-          durationMs: Math.round(performance.now() - bootstrapStartTimestamp),
-        }),
-      );
+    emitBootstrapCompletedEvent({
+      eventBusService,
+      ngZone,
+      bootstrapCorrelationId,
+      bootstrapStartTimestamp,
     });
   } catch (err) {
     console.error('[main.ts] bootstrap error', err);

@@ -44,10 +44,8 @@ export class EventBusService {
     else if (event.level === 'warn') console.warn(message, event);
     else console.log(message, event);
 
-    const next = [...this._events.value, event];
-
     queueMicrotask(() => {
-      this._events.next(next);
+      this._events.next([...this._events.value, event]);
     });
   }
 

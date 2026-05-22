@@ -1,0 +1,32 @@
+.demo-card {
+  display: grid;
+  gap: var(--rime-space-xs);
+  padding: var(--rime-space-sm);
+  border-radius: var(--rime-space-sm-smd);
+  border: 1px solid #ded8e8;
+  background: linear-gradient(135deg, #fff 0%, #faf7ff 100%);
+}
+
+.demo-card__eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+  color: var(--rime-color-primary);
+}
+
+.demo-card__title {
+  margin: 0;
+  color: #222;
+}
+
+.demo-card__body {
+  margin: 0;
+  color: #555;
+}
+
+.demo-card__list {
+  margin: 0;
+  padding-left: 18px;
+  color: #333;
+}

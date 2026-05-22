@@ -11,6 +11,8 @@ import { TimelineDetailsComponent } from './features/timeline/timeline-details/t
 import { TimelineListComponent } from './features/timeline/timeline-list/timeline-list.component';
 import { TimelineMetaComponent } from './features/timeline/timeline-details/timeline-meta/timeline-meta.component';
 import { SettingsComponent } from './features/settings/settings.component';
+import { LifecycleProfileCardComponent } from './features/lifecycle-demo/lifecycle-profile-card.component';
+import { LifecyclePreferencesCardComponent } from './features/lifecycle-demo/lifecycle-preferences-card.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { SettingsComponent } from './features/settings/settings.component';
     TimelineListComponent,
     TimelineMetaComponent,
     SettingsComponent,
+    LifecycleProfileCardComponent,
+    LifecyclePreferencesCardComponent,
   ],
   imports: [BrowserModule],
   providers: [],
