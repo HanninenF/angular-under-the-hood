@@ -253,9 +253,7 @@ describe('bootstrap and root contract', () => {
 
     expect(getRows().length).toBeGreaterThan(initialRows);
     expect(
-      getRows().some((row) =>
-        row.textContent?.includes('event while paused'),
-      ),
+      getRows().some((row) => row.textContent?.includes('event while paused')),
     ).toBeTrue();
     expect(
       state.latestEvents.some((event) => event.label === 'event while paused'),

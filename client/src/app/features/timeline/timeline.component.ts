@@ -17,9 +17,7 @@ import { RuntimeEvent } from '../../core/events/runtime-event.model';
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.scss'],
 })
-export class TimelineComponent
-  implements OnInit, AfterViewChecked, OnDestroy
-{
+export class TimelineComponent implements OnInit, AfterViewChecked, OnDestroy {
   private readonly eventsSubscription = new Subscription();
   private shouldScrollToBottom = false;
 
