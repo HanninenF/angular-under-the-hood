@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RuntimeEvent } from '../../../../core/events/runtime-event.model';
 
 @Component({
@@ -8,4 +8,5 @@ import { RuntimeEvent } from '../../../../core/events/runtime-event.model';
 })
 export class TimelineMetaComponent {
   @Input() selectedEvent?: RuntimeEvent;
+  @Output() readonly filterByCorrelationId = new EventEmitter<string>();
 }

@@ -28,6 +28,7 @@ export class TimelineComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   @Output() readonly selectEvent = new EventEmitter<RuntimeEvent>();
   @Output() readonly closeDetails = new EventEmitter<void>();
+  @Output() readonly filterByCorrelationId = new EventEmitter<string>();
 
   @ViewChild('listViewport')
   private listViewport?: ElementRef<HTMLElement>;

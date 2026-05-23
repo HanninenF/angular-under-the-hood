@@ -6,7 +6,10 @@
         {{ selectedEvent.label }}
       </h2>
 
-      <app-timeline-meta [selectedEvent]="selectedEvent"></app-timeline-meta>
+      <app-timeline-meta
+        [selectedEvent]="selectedEvent"
+        (filterByCorrelationId)="filterByCorrelationId.emit($event)"
+      ></app-timeline-meta>
     </div>
 
     <button class="btn btn--ghost" type="button" (click)="closeDetails.emit()">

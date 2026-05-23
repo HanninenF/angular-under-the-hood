@@ -6,6 +6,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import {
+  DEFAULT_TIMELINE_FILTERS,
+  matchesTimelineFilters,
+  TimelineFilters,
+} from './features/timeline/timeline-filters.model';
 import { RuntimeEvent } from './core/events/runtime-event.model';
 import { EventBusService } from './core/events/event-bus.service';
 import { createEvent } from './core/events/event-factory';
@@ -33,6 +38,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   isPaused = false;
   isAutoScrollEnabled = true;
   selectedEvent?: RuntimeEvent;
+  timelineFilters: TimelineFilters = { ...DEFAULT_TIMELINE_FILTERS };
 
   readonly timelineEvents$ = this.visibleTimelineEventsSubject.asObservable();
 
@@ -59,7 +65,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
         if (!this.isPaused) {
-          this.visibleTimelineEventsSubject.next(events);
+          this.updateVisibleTimelineEvents();
         }
       }),
     );
@@ -135,6 +141,41 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   toggleDebugOutline(): void {
     this.isDebugOutlineEnabled = !this.isDebugOutlineEnabled;
     this.updateBodyDebugOutlineClass();
+  }
+
+  setTimelineFilters(filters: TimelineFilters): void {
+    this.timelineFilters = filters;
+    this.updateVisibleTimelineEvents();
+  }
+
+  clearTimelineFilters(): void {
+    this.timelineFilters = { ...DEFAULT_TIMELINE_FILTERS };
+    this.updateVisibleTimelineEvents();
+  }
+
+  applyCorrelationFilter(correlationId: string): void {
+    this.timelineFilters = {
+      ...this.timelineFilters,
+      correlationId,
+    };
+    this.updateVisibleTimelineEvents();
+  }
+
+  private updateVisibleTimelineEvents(): void {
+    const visibleTimelineEvents = this.allTimelineEvents.filter((event) =>
+      matchesTimelineFilters(event, this.timelineFilters),
+    );
+
+    this.visibleTimelineEventsSubject.next(visibleTimelineEvents);
+
+    if (
+      this.selectedEvent &&
+      !visibleTimelineEvents.some(
+        (event) => event.id === this.selectedEvent?.id,
+      )
+    ) {
+      this.selectedEvent = undefined;
+    }
   }
 
   private updateBodyDebugOutlineClass(): void {

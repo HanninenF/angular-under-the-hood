@@ -3,7 +3,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 import { enableProdMode, NgZone } from '@angular/core';
 import { EventBusService } from './app/core/events/event-bus.service';
-import { environment } from './environments/environments';
+import { environment } from './environments/environment';
 import { createCorrelationId } from './app/core/correlation/correlation-id';
 import { BOOTSTRAP_CORRELATION_ID } from './app/core/correlation/bootstrap-correlation-id.token';
 import { emitBootstrapCompletedEvent } from './app/bootstrap/emit-bootstrap-completed-event';

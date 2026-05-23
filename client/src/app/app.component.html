@@ -3,11 +3,14 @@
   [isDebugOutlineEnabled]="isDebugOutlineEnabled"
   [isPaused]="isPaused"
   [isAutoScrollEnabled]="isAutoScrollEnabled"
+  [timelineFilters]="timelineFilters"
   (activeViewChange)="setActiveView($event)"
   (toggleDebugOutline)="toggleDebugOutline()"
   (togglePause)="togglePause()"
   (toggleAutoScroll)="toggleAutoScroll()"
   (clearTimeline)="clearTimeline()"
+  (timelineFiltersChange)="setTimelineFilters($event)"
+  (clearTimelineFilters)="clearTimelineFilters()"
 >
   @if (activeView === 'timeline') {
     <app-timeline
@@ -17,6 +20,7 @@
       [isAutoScrollEnabled]="isAutoScrollEnabled"
       (selectEvent)="selectEvent($event)"
       (closeDetails)="closeDetails()"
+      (filterByCorrelationId)="applyCorrelationFilter($event)"
     ></app-timeline>
   }
 
