@@ -392,6 +392,141 @@ describe('bootstrap and root contract', () => {
     fixture.destroy();
   }));
 
+  it('keeps shell-owned timeline filters in sync across view changes and filters by correlation id', fakeAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [CommonModule],
+      declarations: [
+        AppComponent,
+        PageWrapper,
+        TimelineComponent,
+        TimelineListComponent,
+        TimelineDetailsComponent,
+        TimelineMetaComponent,
+        SettingsComponent,
+        LifecycleProfileCardComponent,
+        LifecyclePreferencesCardComponent,
+      ],
+      providers: [
+        EventBusService,
+        {
+          provide: BOOTSTRAP_CORRELATION_ID,
+          useValue: 'bootstrap-root-test',
+        },
+      ],
+    });
+
+    const eventBus = TestBed.inject(EventBusService);
+    const fixture: ComponentFixture<AppComponent> =
+      TestBed.createComponent(AppComponent);
+
+    fixture.detectChanges();
+    flushMicrotasks();
+
+    const getButtons = (): HTMLButtonElement[] =>
+      Array.from(fixture.nativeElement.querySelectorAll('button'));
+    const getRows = (): HTMLButtonElement[] =>
+      Array.from(
+        fixture.nativeElement.querySelectorAll('.list-wrapper button.row'),
+      ) as HTMLButtonElement[];
+    const getSelects = (): HTMLSelectElement[] =>
+      Array.from(
+        fixture.nativeElement.querySelectorAll('select'),
+      ) as HTMLSelectElement[];
+    const getSearchInputs = (): HTMLInputElement[] =>
+      Array.from(
+        fixture.nativeElement.querySelectorAll('input[type="search"]'),
+      ) as HTMLInputElement[];
+
+    const clearButton = getButtons().find(
+      (button) => button.textContent?.trim() === 'Clear',
+    );
+
+    expect(clearButton).toBeDefined();
+    clearButton?.click();
+    fixture.detectChanges();
+    flushMicrotasks();
+
+    const bootstrapCorrelationId = createCorrelationId('bootstrap');
+    const lifecycleCorrelationId = createCorrelationId('lifecycle');
+
+    eventBus.emit(
+      createEvent({
+        category: 'BOOTSTRAP',
+        label: 'boot event',
+        source: 'test',
+        correlationId: bootstrapCorrelationId,
+      }),
+    );
+    eventBus.emit(
+      createEvent({
+        category: 'LIFECYCLE',
+        label: 'profile card mounted',
+        source: 'LifecycleProfileCardComponent',
+        correlationId: lifecycleCorrelationId,
+      }),
+    );
+    eventBus.emit(
+      createEvent({
+        category: 'HTTP',
+        label: 'http request completed',
+        source: 'HttpClient',
+        correlationId: bootstrapCorrelationId,
+      }),
+    );
+
+    flushMicrotasks();
+    fixture.detectChanges();
+
+    expect(getRows().length).toBe(3);
+
+    const categorySelect = getSelects()[0];
+    categorySelect.value = 'LIFECYCLE';
+    categorySelect.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+
+    expect(getRows().length).toBe(1);
+    expect(getRows()[0].textContent).toContain('profile card mounted');
+
+    getRows()[0].click();
+    fixture.detectChanges();
+
+    const correlationButton = fixture.nativeElement.querySelector(
+      '.details__meta .correlation-button',
+    ) as HTMLButtonElement;
+
+    expect(correlationButton).toBeTruthy();
+    correlationButton.click();
+    fixture.detectChanges();
+
+    const correlationInput = getSearchInputs()[1];
+    expect(correlationInput.value).toBe(lifecycleCorrelationId);
+    expect(getRows().length).toBe(1);
+
+    const settingsButton = getButtons().find((button) =>
+      button.textContent?.includes('Settings'),
+    );
+    expect(settingsButton).toBeDefined();
+    settingsButton?.click();
+    fixture.detectChanges();
+
+    const timelineButton = getButtons().find((button) =>
+      button.textContent?.includes('Timeline'),
+    );
+    expect(timelineButton).toBeDefined();
+    timelineButton?.click();
+    fixture.detectChanges();
+    flushMicrotasks();
+
+    const refreshedSelects = getSelects();
+    expect(refreshedSelects[0].value).toBe('LIFECYCLE');
+    expect(refreshedSelects[1].value).toBe('ALL');
+    expect(getSearchInputs()[0].value).toBe('');
+    expect(getSearchInputs()[1].value).toBe(lifecycleCorrelationId);
+    expect(getRows().length).toBe(1);
+
+    fixture.destroy();
+  }));
+
   it('keeps EventBusService append and clear behavior in order', fakeAsync(() => {
     TestBed.configureTestingModule({
       providers: [EventBusService],
