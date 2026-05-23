@@ -22,5 +22,6 @@
   <app-timeline-details
     [selectedEvent]="selectedEvent"
     (closeDetails)="closeDetails.emit()"
+    (filterByCorrelationId)="filterByCorrelationId.emit($event)"
   ></app-timeline-details>
 </div>

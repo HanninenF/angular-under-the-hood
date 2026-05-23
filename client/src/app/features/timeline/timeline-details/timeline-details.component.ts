@@ -9,4 +9,5 @@ import { RuntimeEvent } from '../../../core/events/runtime-event.model';
 export class TimelineDetailsComponent {
   @Input() selectedEvent?: RuntimeEvent;
   @Output() closeDetails = new EventEmitter<void>();
+  @Output() readonly filterByCorrelationId = new EventEmitter<string>();
 }

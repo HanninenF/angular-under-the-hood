@@ -13,11 +13,22 @@
     @if (selectedEvent.correlationId) {
       <div>
         <dt>Correlation</dt>
-        <dd class="source">{{ selectedEvent.correlationId }}</dd>
+        <dd class="source">
+          <button
+            class="correlation-button"
+            type="button"
+            (click)="filterByCorrelationId.emit(selectedEvent.correlationId)"
+          >
+            {{ selectedEvent.correlationId }}
+          </button>
+        </dd>
       </div>
     }
 
-    @if (selectedEvent.durationMs !== null) {
+    @if (
+      selectedEvent.durationMs !== undefined &&
+      selectedEvent.durationMs !== null
+    ) {
       <div>
         <dt>Duration</dt>
         <dd class="source">{{ selectedEvent.durationMs }}ms</dd>

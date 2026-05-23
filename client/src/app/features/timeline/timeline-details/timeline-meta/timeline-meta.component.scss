@@ -8,3 +8,17 @@
 .source {
   color: var(--rime-color-tertiary);
 }
+
+.correlation-button {
+  border: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.correlation-button:hover {
+  color: var(--rime-color-primary);
+}

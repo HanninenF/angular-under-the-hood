@@ -44,6 +44,67 @@
   </div>
 </header>
 
+<section class="shell__filters" aria-label="Timeline filters">
+  <label class="filter">
+    <span>Category</span>
+    <select
+      #categorySelect
+      [value]="timelineFilters.category"
+      (change)="setCategory(categorySelect.value)"
+    >
+      @for (option of categoryOptions; track option.value) {
+      <option [value]="option.value">{{ option.label }}</option>
+      }
+    </select>
+  </label>
+
+  <label class="filter">
+    <span>Level</span>
+    <select
+      #levelSelect
+      [value]="timelineFilters.level"
+      (change)="setLevel(levelSelect.value)"
+    >
+      @for (option of levelOptions; track option.value) {
+      <option [value]="option.value">{{ option.label }}</option>
+      }
+    </select>
+  </label>
+
+  <label class="filter">
+    <span>Search</span>
+    <input
+      #searchInput
+      type="search"
+      [value]="timelineFilters.searchText"
+      (input)="setSearchText(searchInput.value)"
+      placeholder="label, source, payload..."
+    />
+  </label>
+
+  <label class="filter">
+    <span>Correlation</span>
+    <input
+      #correlationInput
+      type="search"
+      [value]="timelineFilters.correlationId"
+      (input)="setCorrelationId(correlationInput.value)"
+      placeholder="full or short id"
+    />
+  </label>
+
+  <div class="filter filter__actions">
+    <button
+      class="btn btn--ghost"
+      type="button"
+      (click)="resetTimelineFilters()"
+      [disabled]="!hasActiveTimelineFilters"
+    >
+      Clear filters
+    </button>
+  </div>
+</section>
+
 <main class="page">
   <ng-content></ng-content>
 </main>
