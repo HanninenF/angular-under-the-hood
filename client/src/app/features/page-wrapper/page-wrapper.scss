@@ -4,10 +4,14 @@
   align-items: flex-end;
   gap: var(--rime-space-sm);
   margin-bottom: var(--rime-space-md);
-  padding: var(--rime-space-sm);
+  padding: var(--rime-space-lg);
   border-radius: var(--rime-space-sm-smd);
-  background: linear-gradient(135deg, #fff 0%, #f7f4ff 100%);
-  border: var(--rime-space-xxs) solid hsl(265 15% 90% / 1);
+  background: linear-gradient(
+    135deg,
+    var(--rime-color-surface-elevated) 0%,
+    var(--rime-color-surface) 100%
+  );
+  border: var(--rime-space-xxs) solid var(--rime-color-border-soft);
 }
 
 .shell__copy {
@@ -54,11 +58,10 @@
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: var(--rime-space-sm);
-  margin-bottom: var(--rime-space-md);
-  padding: var(--rime-space-sm);
+  padding: var(--rime-space-lg);
   border-radius: var(--rime-space-sm-smd);
-  background: #fff;
-  border: 1px solid #ece6fb;
+  background: var(--rime-color-surface-elevated);
+  border: 1px solid var(--rime-color-border-soft);
 }
 
 .filter {
@@ -77,8 +80,9 @@
 .filter select,
 .filter input {
   font: inherit;
-  border: 1px solid #d0d0d0;
-  background: #fff;
+  border: 1px solid var(--rime-color-border);
+  background: var(--rime-color-surface);
+  color: var(--rime-color-text-primary);
   padding: 10px 12px;
   border-radius: 12px;
   min-width: 0;
@@ -91,17 +95,19 @@
 .nav-button,
 .btn {
   font: inherit;
-  border: 1px solid #d0d0d0;
-  background: #fff;
+  border: 1px solid var(--rime-color-border);
+  background: var(--rime-color-surface);
+  color: var(--rime-color-text-primary);
   padding: 10px 14px;
   border-radius: 999px;
+
   cursor: pointer;
 }
 
 .nav-button--active {
   border-color: var(--rime-color-primary);
-  color: var(--rime-color-primary);
-  background: #f4f0ff;
+  color: var(--rime-color-text-inverse);
+  background: var(--rime-color-accent-soft);
 }
 
 .btn--ghost:disabled {

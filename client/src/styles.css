@@ -60,6 +60,44 @@ span {
   --rime-color-accent: hsl(220 90% 60%);
   --rime-color-accent-soft: hsl(220 90% 90%);
 
+  /* ===== SURFACE COLORS ===== */
+  --rime-color-surface: hsl(240 5% 14%);
+  --rime-color-surface-elevated: hsl(240 5% 18%);
+  --rime-color-surface-hover: hsl(240 5% 22%);
+  --rime-color-surface-active: hsl(240 5% 26%);
+
+  /* ===== TEXT COLORS ===== */
+  --rime-color-text-primary: hsl(47 43% 94%);
+  --rime-color-text-secondary: hsl(47 15% 75%);
+  --rime-color-text-muted: hsl(47 8% 55%);
+  --rime-color-text-inverse: hsl(240 10% 10%);
+
+  /* ===== BORDER COLORS ===== */
+  --rime-color-border: hsl(240 5% 30%);
+  --rime-color-border-soft: hsl(240 5% 24%);
+  --rime-color-border-strong: hsl(240 5% 40%);
+
+  /* ===== INTERACTIVE COLORS ===== */
+  --rime-color-focus-ring: hsl(220 90% 65%);
+  --rime-color-hover: hsl(220 20% 25%);
+  --rime-color-active: hsl(220 20% 20%);
+
+  /* ===== STATUS COLORS ===== */
+  --rime-color-success: hsl(145 60% 45%);
+  --rime-color-warning: hsl(40 90% 55%);
+  --rime-color-danger: hsl(0 75% 55%);
+  --rime-color-info: hsl(210 90% 60%);
+
+  /* ===== STATUS BACKGROUNDS ===== */
+  --rime-color-success-soft: hsl(145 60% 15%);
+  --rime-color-warning-soft: hsl(40 90% 15%);
+  --rime-color-danger-soft: hsl(0 75% 15%);
+  --rime-color-info-soft: hsl(210 90% 15%);
+
+  /* ===== OVERLAYS ===== */
+  --rime-color-overlay: hsl(0 0% 0% / 0.5);
+  --rime-color-backdrop: hsl(240 10% 5% / 0.75);
+
   /* ===== FONT SIZES ===== */
   --rime-font-size-xs: 12px;
   --rime-font-size-sm: 14px;
