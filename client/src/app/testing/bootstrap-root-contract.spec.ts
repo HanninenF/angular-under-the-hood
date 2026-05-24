@@ -298,25 +298,27 @@ describe('bootstrap and root contract', () => {
         fixture.nativeElement.querySelectorAll('.list-wrapper button.row'),
       ) as HTMLButtonElement[];
 
-    const performanceNowValues = [6200, 43200];
-    spyOn(performance, 'now').and.callFake(() => {
-      const nextValue = performanceNowValues.shift();
-
-      expect(nextValue).withContext('performance.now value').toBeDefined();
-
-      return nextValue as number;
-    });
-
     const lifecycleCorrelationId = createCorrelationId('lifecycle');
+    const createdEvent: RuntimeEvent = {
+      id: 'lifecycle-profile-created',
+      timestampMs: 6200,
+      category: 'LIFECYCLE',
+      label: 'LifecycleProfileCardComponent constructor created',
+      level: 'info',
+      source: 'LifecycleProfileCardComponent',
+      correlationId: lifecycleCorrelationId,
+    };
+    const destroyedEvent: RuntimeEvent = {
+      id: 'lifecycle-profile-destroyed',
+      timestampMs: 43200,
+      category: 'LIFECYCLE',
+      label: 'LifecycleProfileCardComponent ngOnDestroy',
+      level: 'warn',
+      source: 'LifecycleProfileCardComponent',
+      correlationId: lifecycleCorrelationId,
+    };
 
-    eventBus.emit(
-      createEvent({
-        category: 'LIFECYCLE',
-        label: 'LifecycleProfileCardComponent constructor created',
-        source: 'LifecycleProfileCardComponent',
-        correlationId: lifecycleCorrelationId,
-      }),
-    );
+    eventBus.emit(createdEvent);
     flushMicrotasks();
     fixture.detectChanges();
 
@@ -324,15 +326,7 @@ describe('bootstrap and root contract', () => {
       getRows().some((row) => row.textContent?.includes('00:00:000')),
     ).toBeTrue();
 
-    eventBus.emit(
-      createEvent({
-        category: 'LIFECYCLE',
-        label: 'LifecycleProfileCardComponent ngOnDestroy',
-        source: 'LifecycleProfileCardComponent',
-        level: 'warn',
-        correlationId: lifecycleCorrelationId,
-      }),
-    );
+    eventBus.emit(destroyedEvent);
     flushMicrotasks();
     fixture.detectChanges();
 
