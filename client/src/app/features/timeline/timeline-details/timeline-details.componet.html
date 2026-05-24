@@ -12,7 +12,11 @@
       ></app-timeline-meta>
     </div>
 
-    <button class="btn btn--ghost" type="button" (click)="closeDetails.emit()">
+    <button
+      class="btn btn--ghost details__close-button"
+      type="button"
+      (click)="closeDetails.emit()"
+    >
       Close
     </button>
   </header>
