@@ -3,8 +3,12 @@
   gap: var(--rime-space-sm);
   padding: var(--rime-space-sm);
   border-radius: var(--rime-space-sm-smd);
-  background: #fff;
-  border: var(--rime-space-xxs) solid hsl(265 15% 90% / 1);
+  background: linear-gradient(
+    135deg,
+    var(--rime-color-surface-elevated) 0%,
+    var(--rime-color-surface) 100%
+  );
+  border: var(--rime-space-xxs) solid var(--rime-color-border-soft);
 }
 
 .settings__title {
@@ -14,7 +18,7 @@
 
 .settings__lead {
   margin: 0;
-  color: #666;
+  color: var(--rime-color-text-secondary);
 }
 
 .settings__grid {
@@ -27,18 +31,19 @@
 .settings__grid dt {
   font-weight: 700;
   margin-bottom: 4px;
+  color: var(--rime-color-text-primary);
 }
 
 .settings__grid dd {
   margin: 0;
-  color: #333;
+  color: var(--rime-color-text-secondary);
 }
 
 .lifecycle-demo {
   display: grid;
   gap: var(--rime-space-sm);
   padding-top: var(--rime-space-sm);
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid var(--rime-color-border-soft);
 }
 
 .lifecycle-demo__header {
@@ -55,7 +60,7 @@
 
 .lifecycle-demo__lead {
   margin: 4px 0 0;
-  color: #666;
+  color: var(--rime-color-text-secondary);
 }
 
 .lifecycle-demo__actions {
@@ -66,8 +71,9 @@
 
 .tab-button {
   font: inherit;
-  border: 1px solid #d0d0d0;
-  background: #fff;
+  border: 1px solid var(--rime-color-border);
+  background: var(--rime-color-surface);
+  color: var(--rime-color-text-primary);
   padding: 10px 14px;
   border-radius: 999px;
   cursor: pointer;
@@ -75,6 +81,6 @@
 
 .tab-button--active {
   border-color: var(--rime-color-primary);
-  color: var(--rime-color-primary);
-  background: #f4f0ff;
+  color: var(--rime-color-text-inverse);
+  background: var(--rime-color-accent-soft);
 }

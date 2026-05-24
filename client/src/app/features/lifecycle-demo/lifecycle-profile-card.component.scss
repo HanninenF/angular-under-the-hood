@@ -3,8 +3,12 @@
   gap: var(--rime-space-xs);
   padding: var(--rime-space-sm);
   border-radius: var(--rime-space-sm-smd);
-  border: 1px solid #ded8e8;
-  background: linear-gradient(135deg, #fff 0%, #faf7ff 100%);
+  border: 1px solid var(--rime-color-border-soft);
+  background: linear-gradient(
+    135deg,
+    var(--rime-color-info-soft) 0%,
+    var(--rime-color-surface-elevated) 100%
+  );
 }
 
 .demo-card__eyebrow {
@@ -17,16 +21,16 @@
 
 .demo-card__title {
   margin: 0;
-  color: #222;
+  color: var(--rime-color-text-primary);
 }
 
 .demo-card__body {
   margin: 0;
-  color: #555;
+  color: var(--rime-color-text-secondary);
 }
 
 .demo-card__list {
   margin: 0;
   padding-left: 18px;
-  color: #333;
+  color: var(--rime-color-text-secondary);
 }
