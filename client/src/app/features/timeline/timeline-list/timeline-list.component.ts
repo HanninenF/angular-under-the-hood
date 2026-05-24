@@ -92,7 +92,10 @@ export class TimelineListComponent {
       return 0;
     }
 
-    const lifecycleKey = this.getLifecycleKey(event.source, event.correlationId);
+    const lifecycleKey = this.getLifecycleKey(
+      event.source,
+      event.correlationId,
+    );
     const createdTimestampMs = createdTimestampByLifecycleKey.get(lifecycleKey);
 
     if (createdTimestampMs === undefined) {
@@ -116,7 +119,10 @@ export class TimelineListComponent {
         continue;
       }
 
-      const lifecycleKey = this.getLifecycleKey(event.source, event.correlationId);
+      const lifecycleKey = this.getLifecycleKey(
+        event.source,
+        event.correlationId,
+      );
       const existingTimestampMs =
         createdTimestampByLifecycleKey.get(lifecycleKey);
 

@@ -320,7 +320,9 @@ describe('bootstrap and root contract', () => {
     flushMicrotasks();
     fixture.detectChanges();
 
-    expect(getRows().some((row) => row.textContent?.includes('00:00:000'))).toBeTrue();
+    expect(
+      getRows().some((row) => row.textContent?.includes('00:00:000')),
+    ).toBeTrue();
 
     eventBus.emit(
       createEvent({
