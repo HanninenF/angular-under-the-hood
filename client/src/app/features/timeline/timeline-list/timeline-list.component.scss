@@ -1,3 +1,14 @@
+:host {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.list {
+  width: 100%;
+  min-width: 0;
+}
+
 .list-wrapper {
   button {
     border-top: none;
@@ -5,22 +16,48 @@
     border-bottom: none;
   }
   display: flex;
+  align-items: stretch;
   gap: var(--rime-space-xs-sm);
   flex-direction: column;
+  width: 100%;
+  min-width: 0;
+}
+
+.list-wrapper li {
+  display: block;
+  width: 100%;
+}
+
+.list__header {
+  display: grid;
+  grid-template-columns: 120px 110px 120px minmax(0, 2fr) 120px 70px;
+  gap: var(--rime-space-sm-smd);
+  padding: 0 var(--rime-space-sm-md) var(--rime-space-xs-sm)
+    var(--rime-space-xs-sm);
+  color: var(--rime-color-text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .row {
   background: #c1b9ca;
   font-size: inherit;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: 120px 110px 120px minmax(0, 2fr) 120px 70px;
   gap: var(--rime-space-sm-smd);
   padding: var(--rime-space-sm-smd) 0;
   padding-left: var(--rime-space-xs-sm);
   padding-right: var(--rime-space-sm-md);
   cursor: pointer;
   border-left: 13px solid transparent;
+  border-left-color: var(--flow-tone-color, transparent);
   border-radius: 10px;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  text-align: left;
 }
 
 .row:hover {
@@ -36,6 +73,7 @@
   border-radius: var(--rime-space-sm-smd);
   background: var(--rime-color-secondary);
   font-variant-numeric: tabular-nums;
+  align-self: center;
 }
 
 .cat {
@@ -43,6 +81,7 @@
   border-radius: var(--rime-space-sm-smd);
   background: var(--rime-color-secondary);
   font-weight: 600;
+  align-self: center;
 }
 
 .flow-badge {
@@ -52,6 +91,60 @@
   font-weight: 600;
   overflow: visible;
   white-space: normal;
+  background: var(--flow-tone-color, transparent);
+  align-self: center;
+}
+
+.flow-tone-neutral {
+  --flow-tone-color: transparent;
+}
+
+.flow-tone-0 {
+  --flow-tone-color: hsl(0 96% 78%);
+}
+
+.flow-tone-1 {
+  --flow-tone-color: hsl(30 96% 78%);
+}
+
+.flow-tone-2 {
+  --flow-tone-color: hsl(60 96% 78%);
+}
+
+.flow-tone-3 {
+  --flow-tone-color: hsl(90 96% 78%);
+}
+
+.flow-tone-4 {
+  --flow-tone-color: hsl(120 96% 78%);
+}
+
+.flow-tone-5 {
+  --flow-tone-color: hsl(150 96% 78%);
+}
+
+.flow-tone-6 {
+  --flow-tone-color: hsl(180 96% 78%);
+}
+
+.flow-tone-7 {
+  --flow-tone-color: hsl(210 96% 78%);
+}
+
+.flow-tone-8 {
+  --flow-tone-color: hsl(240 96% 78%);
+}
+
+.flow-tone-9 {
+  --flow-tone-color: hsl(270 96% 78%);
+}
+
+.flow-tone-10 {
+  --flow-tone-color: hsl(300 96% 78%);
+}
+
+.flow-tone-11 {
+  --flow-tone-color: hsl(330 96% 78%);
 }
 
 .label {
@@ -60,7 +153,22 @@
   background: var(--rime-color-secondary);
   color: #222;
   overflow: visible;
+  text-overflow: clip;
   white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  min-width: 0;
+  align-self: start;
+}
+
+.life {
+  justify-self: end;
+  padding: var(--rime-space-xs);
+  border-radius: var(--rime-space-sm-smd);
+  background: var(--rime-color-secondary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  align-self: center;
 }
 
 .lvl {
@@ -68,6 +176,7 @@
   font-weight: 700;
   text-transform: uppercase;
   font-size: 12px;
+  align-self: center;
 }
 
 .lvl--info {
