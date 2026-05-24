@@ -1,42 +1,54 @@
 <section class="list" aria-labelledby="timeline-heading">
   <h2 id="timeline-heading" class="sr-only">Timeline events</h2>
 
+  <div class="list__header" aria-hidden="true">
+    <span>Time</span>
+    <span>Category</span>
+    <span>Flow</span>
+    <span>Label</span>
+    <span>Life</span>
+    <span>Level</span>
+  </div>
   <ul class="list-wrapper">
-    @for (event of (events$ | async) ?? []; track event.id) {
+    @for (row of (timelineRows$ | async) ?? []; track row.event.id) {
       <li>
         <button
           class="row"
           type="button"
-          [class.row--selected]="selectedEvent?.id === event.id"
-          [style.border-left-color]="getFlowColor(event.correlationId)"
-          (click)="selectEvent.emit(event)"
-          [attr.aria-pressed]="selectedEvent?.id === event.id"
+          [ngClass]="row.flowToneClass"
+          [class.row--selected]="selectedEvent?.id === row.event.id"
+          (click)="selectEvent.emit(row.event)"
+          [attr.aria-pressed]="selectedEvent?.id === row.event.id"
         >
-          <span class="time">+{{ formatMs(event.timestampMs) }}</span>
+          <span class="time">+{{ row.timestampText }}</span>
 
-          <span class="cat">{{ event.category }}</span>
+          <span class="cat">{{ row.event.category }}</span>
 
-          @if (event.correlationId) {
+          @if (row.event.correlationId) {
             <span
               class="flow-badge"
-              [class.row--selected]="selectedEvent?.id === event.id"
-              [style.background]="getFlowColor(event.correlationId)"
+              [ngClass]="row.flowToneClass"
+              [class.row--selected]="selectedEvent?.id === row.event.id"
             >
-              {{ getShortCorrelationId(event.correlationId) }}
+              {{ row.shortCorrelationId }}
             </span>
           }
 
-          <span class="label">{{ event.label }}</span>
+          <span class="label">{{ row.event.label }}</span>
 
-          <span class="lvl" [class]="'lvl lvl--' + event.level">
-            {{ event.level }}
+          <span class="life" aria-label="Lifecycle duration">
+            {{ row.lifecycleDurationText }}
+          </span>
+
+          <span class="lvl" [class]="'lvl lvl--' + row.event.level">
+            {{ row.event.level }}
           </span>
         </button>
       </li>
     }
   </ul>
 
-  @if (((events$ | async) ?? []).length === 0) {
+  @if (((timelineRows$ | async) ?? []).length === 0) {
     <p class="empty">
       Inga events än. Vi lägger till dem i nästa micro-commit.
     </p>

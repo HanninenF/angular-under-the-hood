@@ -263,6 +263,83 @@ describe('bootstrap and root contract', () => {
     fixture.destroy();
   }));
 
+  it('shows lifecycle durations as created-to-destroyed diffs in timeline rows', fakeAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [CommonModule],
+      declarations: [
+        AppComponent,
+        PageWrapper,
+        TimelineComponent,
+        TimelineListComponent,
+        TimelineDetailsComponent,
+        TimelineMetaComponent,
+        SettingsComponent,
+        LifecycleProfileCardComponent,
+        LifecyclePreferencesCardComponent,
+      ],
+      providers: [
+        EventBusService,
+        {
+          provide: BOOTSTRAP_CORRELATION_ID,
+          useValue: 'bootstrap-root-test',
+        },
+      ],
+    });
+
+    const eventBus = TestBed.inject(EventBusService);
+    const fixture: ComponentFixture<AppComponent> =
+      TestBed.createComponent(AppComponent);
+
+    fixture.detectChanges();
+    flushMicrotasks();
+
+    const getRows = (): HTMLButtonElement[] =>
+      Array.from(
+        fixture.nativeElement.querySelectorAll('.list-wrapper button.row'),
+      ) as HTMLButtonElement[];
+
+    const lifecycleCorrelationId = createCorrelationId('lifecycle');
+    const createdEvent: RuntimeEvent = {
+      id: 'lifecycle-profile-created',
+      timestampMs: 6200,
+      category: 'LIFECYCLE',
+      label: 'LifecycleProfileCardComponent constructor created',
+      level: 'info',
+      source: 'LifecycleProfileCardComponent',
+      correlationId: lifecycleCorrelationId,
+    };
+    const destroyedEvent: RuntimeEvent = {
+      id: 'lifecycle-profile-destroyed',
+      timestampMs: 43200,
+      category: 'LIFECYCLE',
+      label: 'LifecycleProfileCardComponent ngOnDestroy',
+      level: 'warn',
+      source: 'LifecycleProfileCardComponent',
+      correlationId: lifecycleCorrelationId,
+    };
+
+    eventBus.emit(createdEvent);
+    flushMicrotasks();
+    fixture.detectChanges();
+
+    expect(
+      getRows().some((row) => row.textContent?.includes('00:00:000')),
+    ).toBeTrue();
+
+    eventBus.emit(destroyedEvent);
+    flushMicrotasks();
+    fixture.detectChanges();
+
+    const lifecycleRow = getRows().find((row) =>
+      row.textContent?.includes('LifecycleProfileCardComponent ngOnDestroy'),
+    );
+
+    expect(lifecycleRow).toBeDefined();
+    expect(lifecycleRow?.textContent).toContain('00:37:000');
+
+    fixture.destroy();
+  }));
+
   it('clears the shell-managed timeline stream and resets the selected event', fakeAsync(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule],

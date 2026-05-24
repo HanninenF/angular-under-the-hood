@@ -30,14 +30,22 @@
 
 .content {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: minmax(0, 2.4fr) minmax(320px, 0.8fr);
   gap: var(--rime-space-sm);
   align-items: start;
+}
+
+.content > app-timeline-list,
+.content > app-timeline-details {
+  display: block;
+  width: 100%;
+  min-width: 0;
 }
 
 .list-viewport {
   max-height: 72vh;
   overflow-y: auto;
+  min-width: 0;
 }
 
 .details {
@@ -45,4 +53,10 @@
   border-radius: var(--rime-space-sm-smd);
   background: #fff;
   overflow: hidden;
+}
+
+@media (max-width: 1500px) {
+  .content {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
