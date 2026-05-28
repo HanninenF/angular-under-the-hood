@@ -2,17 +2,25 @@
   display: flex;
   justify-content: space-between;
   gap: var(--rime-space-sm-md);
+  align-items: flex-start;
+  flex-wrap: wrap;
   padding: var(--rime-space-sm-md);
   border-bottom: var(--rime-space-xx-xs) solid #f0f0f0;
 }
 
+.details__header > div {
+  min-width: 0;
+  flex: 1 1 0;
+}
+
 .details__title {
+  margin: 0;
   font-weight: 700;
-  margin-bottom: var(--rime-space-xs-sm);
 }
 
 .details__close-button {
-  align-self: center;
+  flex: 0 0 auto;
+  align-self: flex-start;
   max-height: 38px;
   min-width: 60px;
 }
